@@ -1,0 +1,28 @@
+id: audio.vital.Vital
+command: /app/usr/bin/Vital
+
+runtime: org.freedesktop.Platform
+runtime-version: '22.08'
+sdk: org.freedesktop.Sdk
+
+finish-args:
+- --share=ipc
+- --socket=x11
+- --socket=wayland
+- --socket=pulseaudio
+- --device=dri
+
+modules:
+  - name: Vital
+    buildsystem: simple
+    build-commands:
+      - ar x VitalInstaller.deb
+      - rm VitalInstaller.deb debian-binary control.tar.gz
+      - tar xfz data.tar.gz
+      - rm data.tar.gz
+      - install -D usr/bin/Vital /app/usr/bin/Vital
+    sources:
+      - type: file
+        path: VitalInstaller.deb
+
+
